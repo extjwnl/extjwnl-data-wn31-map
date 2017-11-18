@@ -1,0 +1,147 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.sf.extjwnl</groupId>
+        <artifactId>extjwnl-parent</artifactId>
+        <version>1.9.4-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>extjwnl-data-wn31-map</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0</version>
+    <name>extJWNL WordNet 3.1 Serialized Data</name>
+    <description>Serialized dictionary data from WordNet 3.1 Unix version</description>
+
+    <scm>
+        <connection>scm:git:https://github.com/extjwnl/extjwnl-data-wn31-map.git</connection>
+        <developerConnection>scm:git:git@github.com:extjwnl/extjwnl-data-wn31-map.git</developerConnection>
+        <url>https://github.com/extjwnl/extjwnl-data-wn31-map</url>
+      <tag>HEAD</tag>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.sf.extjwnl</groupId>
+            <artifactId>extjwnl-utilities</artifactId>
+            <version>1.9.4-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.extjwnl</groupId>
+            <artifactId>extjwnl-data-wn31</artifactId>
+            <version>1.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-wordnet</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>net.sf.extjwnl</groupId>
+                                    <artifactId>extjwnl-data-wn31</artifactId>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <includes>net/sf/extjwnl/data/wordnet/wn31/*.*</includes>
+                                    <outputDirectory>${project.build.directory}/data</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>convert-data</id>
+                        <phase>process-test-resources</phase>
+                        <configuration>
+                            <target>
+                                <property name="test_classpath" refid="maven.test.classpath" />
+
+                                <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+
+                                <if>
+                                    <available file="${project.build.directory}/classes/net/sf/extjwnl/data/wordnet/wn31/map/data.noun" />
+                                    <then>
+                                        <echo>Map exists, skipping...</echo>
+                                    </then>
+                                    <else>
+                                        <echo>Converting dictionary into map...</echo>
+
+                                        <java classname="net.sf.extjwnl.utilities.DictionaryToMap" fork="false" failonerror="true">
+
+                                            <arg value="${project.build.directory}/test-classes/file_properties.xml" />
+                                            <arg value="${project.build.directory}/classes/net/sf/extjwnl/data/wordnet/wn31/map/" />
+
+                                            <classpath>
+                                                <pathelement path="${test_classpath}" />
+                                            </classpath>
+                                        </java>
+                                        <echo>The dictionary converted into map</echo>
+                                    </else>
+                                </if>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>20020829</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>

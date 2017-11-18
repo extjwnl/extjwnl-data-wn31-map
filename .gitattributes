@@ -1,0 +1,14 @@
+# Set default behaviour, in case users don't have core.autocrlf set.
+* text eol=lf
+adj.exc         -text
+adv.exc         -text
+data.adj        -text
+data.adv        -text
+data.noun       -text
+data.verb       -text
+index.adj       -text
+index.adv       -text
+index.noun      -text
+index.verb      -text
+noun.exc        -text
+verb.exc        -text
