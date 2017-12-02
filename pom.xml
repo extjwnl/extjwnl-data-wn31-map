@@ -9,7 +9,7 @@
 
     <artifactId>extjwnl-data-wn31-map</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>extJWNL WordNet 3.1 Serialized Data</name>
     <description>Serialized dictionary data from WordNet 3.1 Unix version</description>
 
@@ -17,7 +17,7 @@
         <connection>scm:git:https://github.com/extjwnl/extjwnl-data-wn31-map.git</connection>
         <developerConnection>scm:git:git@github.com:extjwnl/extjwnl-data-wn31-map.git</developerConnection>
         <url>https://github.com/extjwnl/extjwnl-data-wn31-map</url>
-      <tag>HEAD</tag>
+      <tag>extjwnl-data-wn31-map-1.0</tag>
     </scm>
 
     <dependencies>
