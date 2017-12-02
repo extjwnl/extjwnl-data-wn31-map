@@ -96,11 +96,25 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-test-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>testResources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>convert-data</id>
-                        <phase>process-test-resources</phase>
+                        <phase>process-resources</phase>
                         <configuration>
                             <target>
                                 <property name="test_classpath" refid="maven.test.classpath" />
