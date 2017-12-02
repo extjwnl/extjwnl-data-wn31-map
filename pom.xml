@@ -4,7 +4,7 @@
     <parent>
         <groupId>net.sf.extjwnl</groupId>
         <artifactId>extjwnl-parent</artifactId>
-        <version>1.9.4-SNAPSHOT</version>
+        <version>1.9.4</version>
     </parent>
 
     <artifactId>extjwnl-data-wn31-map</artifactId>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>net.sf.extjwnl</groupId>
             <artifactId>extjwnl-utilities</artifactId>
-            <version>1.9.4-SNAPSHOT</version>
+            <version>1.9.4</version>
             <scope>test</scope>
         </dependency>
 
